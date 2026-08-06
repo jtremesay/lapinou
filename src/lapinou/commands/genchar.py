@@ -16,8 +16,8 @@
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 
-from lapinou.agents import create_agent, create_character
-from lapinou.core.command import BaseCommand
+from ..agents import create_agent, create_character
+from ..core.command import BaseCommand
 
 
 class Command(BaseCommand):

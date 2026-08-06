@@ -17,9 +17,9 @@ from argparse import ArgumentParser, Namespace
 
 import pygame
 
-from lapinou.core.command import BaseCommand
-from lapinou.game.scenes.main_menu import MainMenuScene
-from lapinou.ge.director import Director
+from ..core.command import BaseCommand
+from ..director import Director
+from ..scenes.main_menu import MainMenuScene
 
 
 class Command(BaseCommand):

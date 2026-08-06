@@ -20,8 +20,8 @@ from collections.abc import Iterable
 
 from dotenv import load_dotenv
 
-from lapinou import commands as commands_module
-from lapinou.core.command import BaseCommand
+from . import commands as commands_module
+from .core.command import BaseCommand
 
 
 def main(args: Iterable[str] | None = None) -> None:

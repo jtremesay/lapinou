@@ -15,8 +15,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from pygame import Surface
 
-from lapinou.ge.director import Director
-from lapinou.ge.scene import Scene
+from ..director import Director
+from ..scene import Scene
 
 
 class MainMenuScene(Scene):

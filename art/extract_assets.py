@@ -10,11 +10,9 @@ from zipfile import ZipFile
 
 from PIL import Image
 
-logger = logging.getLogger(__name__)
+from lapinou.assets import DIR as ASSETS_DIR
 
-DEFAULT_ASSETS_DIR = (
-    Path(__file__).parent.parent / "src" / "lapinou" / "game" / "assets"
-)
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -261,12 +259,15 @@ def zip_extract_files(zip_file: ZipFile, entry_names: list[tuple[str, Path]]):
 def image_generate_nine_patch(
     in_image: Image.Image, out_image_path: Path, nine_patch: NinePatch
 ):
+    logger.info("Generating nine-patch image %s", out_image_path)
+
     out_image = Image.new("RGBA", nine_patch.out_size, (0, 0, 0, 0))
     for box_in, box_out in nine_patch.boxes:
         logger.debug("Cropping %s and pasting to %s", box_in, box_out)
         patch = in_image.crop(box_in)
         out_image.paste(patch, box_out)
 
+    out_image_path.parent.mkdir(parents=True, exist_ok=True)
     out_image.save(out_image_path)
 
 
@@ -307,7 +308,7 @@ def extract_sprout_ui(sprout_ui_zip: Path, assets_dir: Path, clean: bool = False
             "Sprout Lands - UI Pack - Basic pack/Sprite sheets/Sprite sheet for Basic Pack.png",
             [
                 (
-                    sprout_ui_dir / "dialogs" / f"wood_frame_{color}_{style}.png",
+                    sprout_ui_dir / "dialogs" / "wood_frame" / f"{color}_{style}.png",
                     NinePatch(
                         8,
                         8,
@@ -350,7 +351,7 @@ def main(args: Iterable[str] | None = None) -> None:
         "-a",
         "--assets-dir",
         type=Path,
-        default=DEFAULT_ASSETS_DIR,
+        default=ASSETS_DIR,
         help="Directory in which to extract the assets.",
     )
     parser.add_argument(
