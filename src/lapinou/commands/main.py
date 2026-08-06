@@ -18,7 +18,7 @@ from argparse import ArgumentParser, Namespace
 import pygame
 
 from lapinou.core.command import BaseCommand
-from lapinou.game.scenes.scene01 import Scene01
+from lapinou.game.scenes.main_menu import MainMenuScene
 from lapinou.ge.director import Director
 
 
@@ -32,7 +32,7 @@ class Command(BaseCommand):
         pygame.init()
         screen = pygame.display.set_mode((1280, 720))
 
-        director = Director(Scene01())
+        director = Director(MainMenuScene())
         director.run(screen)
 
         pygame.quit()

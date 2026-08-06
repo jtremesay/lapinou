@@ -13,19 +13,12 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-import pygame as pg
 from pygame import Surface
 
 from lapinou.ge.director import Director
 from lapinou.ge.scene import Scene
 
-from .scene02 import Scene02
 
-
-class Scene01(Scene):
+class MainMenuScene(Scene):
     def update(self, dt: float, director: Director, screen: Surface) -> None:
-        screen.fill("magenta")
-
-        keys = pg.key.get_just_released()
-        if keys[pg.K_SPACE]:
-            director.replace_scene(Scene02())
+        screen.fill("green")
