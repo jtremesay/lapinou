@@ -28,4 +28,4 @@ def create_character(agent: Agent | None = None) -> Character:
     if agent is None:
         agent = create_agent()
 
-    return agent.run_sync("Generate a character", output_type=Character)
+    return agent.run_sync("Generate a character", output_type=Character).output
