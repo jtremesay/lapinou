@@ -4,6 +4,7 @@ import shutil
 from argparse import ArgumentParser
 from collections.abc import Iterable
 from dataclasses import dataclass
+from itertools import product
 from pathlib import Path
 from zipfile import ZipFile
 
@@ -306,7 +307,7 @@ def extract_sprout_ui(sprout_ui_zip: Path, assets_dir: Path, clean: bool = False
             "Sprout Lands - UI Pack - Basic pack/Sprite sheets/Sprite sheet for Basic Pack.png",
             [
                 (
-                    sprout_ui_dir / "dialogs" / f"wood_frame_{color}.png",
+                    sprout_ui_dir / "dialogs" / f"wood_frame_{color}_{style}.png",
                     NinePatch(
                         8,
                         8,
@@ -314,12 +315,15 @@ def extract_sprout_ui(sprout_ui_zip: Path, assets_dir: Path, clean: bool = False
                         8,
                         16,
                         16,
-                        in_offset_x=152,
+                        in_offset_x=152 + i_style * 48,
                         in_offset_y=8 + i_color * 48,
                     ),
                 )
-                for i_color, color in enumerate(
-                    ["light", "medium", "dark"],
+                for (i_color, color), (i_style, style) in product(
+                    enumerate(
+                        ["light", "medium", "dark"],
+                    ),
+                    enumerate(["plain", "nailed"]),
                 )
             ],
         )
