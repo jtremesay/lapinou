@@ -13,26 +13,3 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-from argparse import ArgumentParser, Namespace
-
-import pygame
-
-from lapinou.core.command import BaseCommand
-from lapinou.game.scenes.scene01 import Scene01
-from lapinou.ge.director import Director
-
-
-class Command(BaseCommand):
-    help_text = "Start lapinou"
-
-    def add_arguments(self, parser: ArgumentParser) -> None:
-        pass
-
-    def handle(self, args: Namespace) -> None:
-        pygame.init()
-        screen = pygame.display.set_mode((1280, 720))
-
-        director = Director(Scene01())
-        director.run(screen)
-
-        pygame.quit()
