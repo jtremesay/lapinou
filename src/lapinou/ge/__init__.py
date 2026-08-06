@@ -13,14 +13,3 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-from typing import TYPE_CHECKING
-
-from pygame import Surface
-
-if TYPE_CHECKING:
-    from .director import Director
-
-
-class Scene:
-    def update(self, dt: float, director: Director, screen: Surface) -> None:
-        pass

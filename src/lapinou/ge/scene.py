@@ -13,26 +13,17 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-from argparse import ArgumentParser, Namespace
+from typing import TYPE_CHECKING
 
-import pygame
+from pygame import Surface
 
-from ..core.command import BaseCommand
-from ..ge.director import Director
-from ..scenes.main_menu import MainMenuScene
+if TYPE_CHECKING:
+    from .director import Director
 
 
-class Command(BaseCommand):
-    help_text = "Start lapinou"
-
-    def add_arguments(self, parser: ArgumentParser) -> None:
+class Scene:
+    def update(self, dt: float, director: Director) -> None:
         pass
 
-    def handle(self, args: Namespace) -> None:
-        pygame.init()
-        screen = pygame.display.set_mode((1280, 720))
-
-        director = Director(MainMenuScene())
-        director.run(screen)
-
-        pygame.quit()
+    def draw(self, screen: Surface) -> None:
+        pass

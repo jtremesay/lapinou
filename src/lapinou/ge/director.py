@@ -47,9 +47,13 @@ class Director:
         except IndexError:
             self.scenes.append(scene)
 
-    def update(self, dt: float, screen: Surface) -> None:
+    def update(self, dt: float) -> None:
         if scene := self.top_scene():
-            scene.update(dt, self, screen)
+            scene.update(dt, self)
+
+    def draw(self, screen: Surface) -> None:
+        if scene := self.top_scene():
+            scene.draw(screen)
 
     def run(self, screen: Surface) -> None:
         clock = Clock()
@@ -60,7 +64,7 @@ class Director:
                 if e.type == pg.QUIT:
                     return
 
-            self.update(dt, screen)
-
+            self.update(dt)
+            self.draw(screen)
             pg.display.flip()
             clock.tick(target_fps)
