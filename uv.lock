@@ -415,12 +415,14 @@ name = "lapinou"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "pydantic" },
     { name = "pydantic-ai-slim", extra = ["google", "openai"] },
     { name = "python-dotenv" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "pydantic", specifier = ">=2.13.4" },
     { name = "pydantic-ai-slim", extras = ["google", "openai"], specifier = ">=2.25.0" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
 ]
