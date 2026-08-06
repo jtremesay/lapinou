@@ -1,9 +1,11 @@
+from os import environ
+
 from dotenv import load_dotenv
 from pydantic_ai import Agent
 
 load_dotenv()  # Load environment variables from .env file
 
-agent = Agent("ollama:gemma4:cloud")
+agent = Agent(environ["LAPINOU_MODEL"])
 
 
 def main() -> None:
