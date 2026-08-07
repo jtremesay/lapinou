@@ -25,18 +25,18 @@ from ..sprites.wood_frame import WoodFrameSprite
 class MainMenuScene(Scene):
     def __init__(self):
         super().__init__()
-        self.group = Group()
+        self.root_group = Group()
         self.frame = WoodFrameSprite(
             WoodFrameSprite.Color.DARK,
             WoodFrameSprite.Style.NAILED,
-            self.group,
+            self.root_group,
             center_size=(100, 100),
         )
         self.frame.rect.center = (400, 300)
 
     def update(self, dt: float, director: Director) -> None:
-        self.group.update(dt)
+        self.root_group.update(dt)
 
     def draw(self, screen: Surface) -> None:
         screen.fill("green")
-        self.group.draw(screen)
+        self.root_group.draw(screen)
