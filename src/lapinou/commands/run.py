@@ -17,13 +17,14 @@ from argparse import ArgumentParser, Namespace
 
 import pygame
 
+from llmrpg.entrypoint import get_entrypoint_scene
+
 from ..core.command import BaseCommand
-from ..ge.director import Director
-from ..scenes.main_menu import MainMenuScene
+from ..director import Director
 
 
 class Command(BaseCommand):
-    help_text = "Start lapinou"
+    help_text = "Run a game"
 
     def add_arguments(self, parser: ArgumentParser) -> None:
         pass
@@ -32,7 +33,7 @@ class Command(BaseCommand):
         pygame.init()
         screen = pygame.display.set_mode((1280, 720))
 
-        director = Director(MainMenuScene())
+        director = Director(get_entrypoint_scene())
         director.run(screen)
 
         pygame.quit()

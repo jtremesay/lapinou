@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-from lapinou.main import main
+from pathlib import Path
 
-main()
+ASSETS_DIR = Path(__file__).parent
+SPROUT_UI_DIR = ASSETS_DIR / "sprout_ui"

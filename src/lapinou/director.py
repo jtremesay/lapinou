@@ -55,10 +55,12 @@ class Director:
         if scene := self.top_scene():
             scene.draw(screen)
 
+        pg.display.flip()
+
     def run(self, screen: Surface) -> None:
         clock = Clock()
         target_fps = 60
-        dt = 1 / target_fps  # Run the game at virtual 60 updates per second
+        dt = 1 / target_fps
         while self.scenes:
             for e in pg.event.get():
                 if e.type == pg.QUIT:
@@ -66,5 +68,4 @@ class Director:
 
             self.update(dt)
             self.draw(screen)
-            pg.display.flip()
             clock.tick(target_fps)

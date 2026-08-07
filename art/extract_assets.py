@@ -10,7 +10,7 @@ from zipfile import ZipFile
 
 from PIL import Image
 
-from lapinou.assets import DIR as ASSETS_DIR
+from llmrpg.assets import SPROUT_UI_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -279,13 +279,12 @@ def image_generate_nine_patches(
         image_generate_nine_patch(in_image, out_image_path, nine_patch)
 
 
-def extract_sprout_ui(sprout_ui_zip: Path, assets_dir: Path, clean: bool = False):
-    sprout_ui_dir = assets_dir / "sprout" / "ui"
+def extract_sprout_ui(sprout_ui_zip: Path, clean: bool = False):
     if clean:
-        shutil.rmtree(sprout_ui_dir, ignore_errors=True)
-    sprout_ui_dir.mkdir(parents=True, exist_ok=True)
+        shutil.rmtree(SPROUT_UI_DIR, ignore_errors=True)
+    SPROUT_UI_DIR.mkdir(parents=True, exist_ok=True)
     logger.info(
-        "Extracting Sprout UI assets from %s to %s", sprout_ui_zip, sprout_ui_dir
+        "Extracting Sprout UI assets from %s to %s", sprout_ui_zip, SPROUT_UI_DIR
     )
 
     with ZipFile(sprout_ui_zip, "r") as zip_file:
@@ -294,11 +293,11 @@ def extract_sprout_ui(sprout_ui_zip: Path, assets_dir: Path, clean: bool = False
             [
                 (
                     "Sprout Lands - UI Pack - Basic pack/fonts/pixelFont-7-8x14-sproutLands.ttf",
-                    sprout_ui_dir / "fonts" / "font_8x14.ttf",
+                    SPROUT_UI_DIR / "fonts" / "font_8x14.ttf",
                 ),
                 (
                     "Sprout Lands - UI Pack - Basic pack/fonts/pixel-letters-7-8x14.png",
-                    sprout_ui_dir / "fonts" / "font_8x14.png",
+                    SPROUT_UI_DIR / "fonts" / "font_8x14.png",
                 ),
             ],
         )
@@ -308,7 +307,7 @@ def extract_sprout_ui(sprout_ui_zip: Path, assets_dir: Path, clean: bool = False
             "Sprout Lands - UI Pack - Basic pack/Sprite sheets/Sprite sheet for Basic Pack.png",
             [
                 (
-                    sprout_ui_dir / "dialogs" / "wood_frame" / f"{color}_{style}.png",
+                    SPROUT_UI_DIR / "dialogs" / "wood_frame" / f"{color}_{style}.png",
                     NinePatch(
                         8,
                         8,
@@ -348,13 +347,6 @@ def main(args: Iterable[str] | None = None) -> None:
         help="Path to the Sprout UI zip file.",
     )
     parser.add_argument(
-        "-a",
-        "--assets-dir",
-        type=Path,
-        default=ASSETS_DIR,
-        help="Directory in which to extract the assets.",
-    )
-    parser.add_argument(
         "-c",
         "--clean",
         action="store_true",
@@ -366,9 +358,7 @@ def main(args: Iterable[str] | None = None) -> None:
         format="%(levelname)s: %(message)s",
     )
 
-    extract_sprout_ui(
-        parsed_args.sprout_ui, parsed_args.assets_dir, clean=parsed_args.clean
-    )
+    extract_sprout_ui(parsed_args.sprout_ui, clean=parsed_args.clean)
 
 
 if __name__ == "__main__":

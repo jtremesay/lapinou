@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from pygame import Rect
 from pygame.typing import IntPoint
@@ -22,16 +22,18 @@ from pygame.typing import IntPoint
 
 @dataclass
 class NinePatch:
-    outer_size: Rect  # Width and height of left, top, right and bottom
-    center_size: IntPoint  # width and height of the center patch
+    outer_size: tuple[int, int, int, int]  # Widths of left, top, right and bottom
+    center_size: tuple[int, int] = field(
+        default_factory=lambda: (1, 1)
+    )  # width and height of the center patch
 
     @property
     def width(self) -> int:
-        return self.outer_size.left + self.center_size[0] + self.outer_size.right
+        return self.outer_size[0] + self.center_size[0] + self.outer_size[2]
 
     @property
     def height(self) -> int:
-        return self.outer_size.top + self.center_size[1] + self.outer_size.bottom
+        return self.outer_size[1] + self.center_size[1] + self.outer_size[3]
 
     @property
     def size(self) -> IntPoint:
@@ -39,30 +41,30 @@ class NinePatch:
 
     @property
     def top_left_box(self) -> Rect:
-        return Rect(0, 0, self.outer_size.left, self.outer_size.top)
+        return Rect(0, 0, self.outer_size[0], self.outer_size[1])
 
     @property
     def top_box(self) -> Rect:
-        return Rect(self.outer_size.left, 0, self.center_size[0], self.outer_size.top)
+        return Rect(self.outer_size[0], 0, self.center_size[0], self.outer_size[1])
 
     @property
     def top_right_box(self) -> Rect:
         return Rect(
-            self.outer_size.left + self.center_size[0],
+            self.outer_size[0] + self.center_size[0],
             0,
-            self.outer_size.right,
-            self.outer_size.top,
+            self.outer_size[2],
+            self.outer_size[1],
         )
 
     @property
     def left_box(self) -> Rect:
-        return Rect(0, self.outer_size.top, self.outer_size.left, self.center_size[1])
+        return Rect(0, self.outer_size[1], self.outer_size[0], self.center_size[1])
 
     @property
     def center_box(self) -> Rect:
         return Rect(
-            self.outer_size.left,
-            self.outer_size.top,
+            self.outer_size[0],
+            self.outer_size[1],
             self.center_size[0],
             self.center_size[1],
         )
@@ -70,9 +72,9 @@ class NinePatch:
     @property
     def right_box(self) -> Rect:
         return Rect(
-            self.outer_size.left + self.center_size[0],
-            self.outer_size.top,
-            self.outer_size.right,
+            self.outer_size[0] + self.center_size[0],
+            self.outer_size[1],
+            self.outer_size[2],
             self.center_size[1],
         )
 
@@ -80,27 +82,27 @@ class NinePatch:
     def bottom_left_box(self) -> Rect:
         return Rect(
             0,
-            self.outer_size.top + self.center_size[1],
-            self.outer_size.left,
-            self.outer_size.bottom,
+            self.outer_size[1] + self.center_size[1],
+            self.outer_size[0],
+            self.outer_size[3],
         )
 
     @property
     def bottom_box(self) -> Rect:
         return Rect(
-            self.outer_size.left,
-            self.outer_size.top + self.center_size[1],
+            self.outer_size[0],
+            self.outer_size[1] + self.center_size[1],
             self.center_size[0],
-            self.outer_size.bottom,
+            self.outer_size[3],
         )
 
     @property
     def bottom_right_box(self) -> Rect:
         return Rect(
-            self.outer_size.left + self.center_size[0],
-            self.outer_size.top + self.center_size[1],
-            self.outer_size.right,
-            self.outer_size.bottom,
+            self.outer_size[0] + self.center_size[0],
+            self.outer_size[1] + self.center_size[1],
+            self.outer_size[2],
+            self.outer_size[3],
         )
 
     @property

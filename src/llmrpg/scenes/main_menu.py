@@ -14,14 +14,29 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from pygame import Surface
+from pygame.sprite import Group
 
-from ..ge.director import Director
-from ..ge.scene import Scene
+from lapinou.director import Director
+from lapinou.scene import Scene
+
+from ..sprites.wood_frame import WoodFrameSprite
 
 
 class MainMenuScene(Scene):
+    def __init__(self):
+        super().__init__()
+        self.group = Group()
+        self.frame = WoodFrameSprite(
+            WoodFrameSprite.Color.DARK,
+            WoodFrameSprite.Style.NAILED,
+            self.group,
+            center_size=(100, 100),
+        )
+        self.frame.rect.center = (400, 300)
+
     def update(self, dt: float, director: Director) -> None:
-        pass
+        self.group.update(dt)
 
     def draw(self, screen: Surface) -> None:
         screen.fill("green")
+        self.group.draw(screen)
