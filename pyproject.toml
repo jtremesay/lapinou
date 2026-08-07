@@ -13,8 +13,8 @@ dependencies = [
     "pillow>=12.3.0",
     "pydantic>=2.13.4",
     "pydantic-ai-slim[google,openai]>=2.25.0",
-    "pygame-ce>=2.5.7",
     "python-dotenv>=1.2.2",
+    "pymunk~=7.2.0",
 ]
 
 [project.scripts]
@@ -23,3 +23,6 @@ lapinou = "lapinou.core.main:main"
 [build-system]
 requires = ["uv_build>=0.12.0,<0.13.0"]
 build-backend = "uv_build"
+
+[tool.uv.sources]
+arcade = { git = "https://github.com/pythonarcade/arcade.git" }

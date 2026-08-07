@@ -1,0 +1,53 @@
+# llmrpg - An agentic rpg game
+# Copyright (C) 2026 Jonathan Tremesaygues
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+from dataclasses import dataclass
+from enum import StrEnum
+from pathlib import Path
+
+from arcade import load_texture
+from arcade.gui import NinePatchTexture
+
+from llmrpg.assets import SPROUT_UI_DIR
+
+
+class WoodFrameColor(StrEnum):
+    LIGHT = "light"
+    MEDIUM = "medium"
+    DARK = "dark"
+
+
+class WoodFramePattern(StrEnum):
+    PLAIN = "plain"
+    NAILED = "nailed"
+
+
+@dataclass
+class WoodFrameStyle:
+    color: WoodFrameColor = WoodFrameColor.LIGHT
+    pattern: WoodFramePattern = WoodFramePattern.PLAIN
+
+    @property
+    def image_path(self) -> Path:
+        return (
+            SPROUT_UI_DIR
+            / "dialogs"
+            / "wood_frame"
+            / f"{self.color.value}_{self.pattern.value}.png"
+        )
+
+    @property
+    def texture(self) -> NinePatchTexture:
+        return NinePatchTexture(8, 8, 8, 8, load_texture(self.image_path))

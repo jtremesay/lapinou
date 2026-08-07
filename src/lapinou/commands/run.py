@@ -17,11 +17,12 @@ from argparse import ArgumentParser, Namespace
 from importlib import import_module
 from logging import getLogger
 from os import getenv
+from typing import Any
 
-import pygame
+from arcade import Window
+from arcade import run as arcade_run
 
-from ..core.command import BaseCommand
-from ..director import Director
+from lapinou.core.command import BaseCommand
 
 logger = getLogger(__name__)
 
@@ -39,23 +40,24 @@ class Command(BaseCommand):
         )
 
     def handle(self, args: Namespace) -> None:
-        pygame.init()
-        screen = pygame.display.set_mode((1280, 720))
+        # Load the game entry point module
         try:
             entry_point = import_module(f"{args.game}.entrypoint")
         except ModuleNotFoundError:
-            logger.error("Error: The game '%s' could not be found.", args.game)
+            logger.exception("Error: The game '%s' could not be found.", args.game)
             return
+
+        # Load the entry point scene from the game module
         try:
-            get_entrypoint_scene = entry_point.get_entrypoint_scene
+            get_entry_view: Any = entry_point.get_entry_view
         except AttributeError:
             logger.error(
-                "Error: The game '%s' does not have a 'get_entrypoint_scene' function.",
+                "Error: The game '%s' does not have a 'get_entry_view' function.",
                 args.game,
             )
             return
 
-        director = Director(get_entrypoint_scene())
-        director.run(screen)
-
-        pygame.quit()
+        # Create the window and run the game
+        window = Window(1280, 720, args.game)
+        window.show_view(get_entry_view())
+        arcade_run()

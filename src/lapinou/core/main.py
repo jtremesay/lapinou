@@ -20,7 +20,8 @@ from collections.abc import Iterable
 
 from dotenv import load_dotenv
 
-from .. import commands as commands_module
+from lapinou import commands as commands_module
+
 from .command import BaseCommand
 
 
