@@ -9,6 +9,7 @@ authors = [
 ]
 requires-python = ">=3.14"
 dependencies = [
+    "arcade>=2.4.3",
     "pillow>=12.3.0",
     "pydantic>=2.13.4",
     "pydantic-ai-slim[google,openai]>=2.25.0",
