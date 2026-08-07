@@ -26,13 +26,21 @@ class MainMenuScene(Scene):
     def __init__(self):
         super().__init__()
         self.root_group = Group()
-        self.frame = WoodFrameSprite(
+        frame = WoodFrameSprite(
             WoodFrameSprite.Color.DARK,
             WoodFrameSprite.Style.NAILED,
             self.root_group,
-            center_size=(100, 100),
+            center_size=(80, 100),
         )
-        self.frame.rect.center = (400, 300)
+        frame.rect.center = (100, 75)
+
+        self.frame = WoodFrameSprite(
+            WoodFrameSprite.Color.LIGHT,
+            WoodFrameSprite.Style.PLAIN,
+            self.root_group,
+            center_size=(100, 50),
+        )
+        self.frame.rect.center = (500, 100)
 
     def update(self, dt: float, director: Director) -> None:
         self.root_group.update(dt)
