@@ -14,52 +14,54 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-# from arcade import SpriteCircle, SpriteList
-from arcade.gui import UIAnchorLayout, UIBoxLayout, UIButtonRow, UILabel, UIView
+from typing import cast
+
+from arcade.gui import (
+    UIAnchorLayout,
+    UIBoxLayout,
+    UIButtonRow,
+    UIFlatButton,
+    UILabel,
+    UIView,
+)
+
+from lapinou.models.settings import Settings
+from lapinou.ui.wood_frame import with_wood_frame_background
 
 # from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern, wood_frame_texture
 
 
 class MainMenuView(UIView):
-    def __init__(self) -> None:
+    def __init__(self, settings: Settings | None = None) -> None:
         super().__init__()
         root = self.ui.add(UIAnchorLayout(space_between=10))
 
-        row = UIButtonRow()
-        row.add_button("Start Game")
-        row.add_button("Load Game")
-        row.add_button("Settings")
-        root.add(
-            UIBoxLayout(
-                children=[
-                    UILabel(
-                        text="Lapinou\nAn agentic game engine",
-                        multiline=True,
-                        font_size=24,
-                        text_color=(0, 0, 255),
-                        align="center",
-                    ),
-                    row,
-                ],
-                space_between=10,
+        box = root.add(
+            with_wood_frame_background(UIBoxLayout(vertical=True, space_between=10))
+        )
+        box.add(
+            UILabel(
+                text="Lapinou\nAn agentic game engine",
+                multiline=True,
+                font_size=24,
+                text_color=(0, 0, 255),
+                align="center",
             )
-            # .with_background(
-            #     texture=wood_frame_texture(
-            #         WoodFrameColor.MEDIUM, WoodFramePattern.NAILED
-            #     )
-            # )
-            # .with_padding(top=16, right=16, bottom=16, left=16),
         )
 
-        # self.sprite_list = SpriteList()
-        # self.sprite_list.append(
-        #     SpriteCircle(
-        #         radius=50,
-        #         color=(255, 0, 0, 255),
-        #         center_x=self.center_x,
-        #         center_y=self.center_y,
-        #     )
-        # )
+        button_row = box.add(UIButtonRow())
+        start_game_button = cast(UIFlatButton, button_row.add_button("Start Game"))
+        load_game_button = cast(UIFlatButton, button_row.add_button("Load Game"))
+        load_game_button.disabled = True  # TODO: Implement load game functionality
+        settings_button = cast(UIFlatButton, button_row.add_button("Settings"))
+        quit_button = cast(UIFlatButton, button_row.add_button("Quit"))
 
-    # def on_draw_before_ui(self):
-    #     self.sprite_list.draw()
+        @settings_button.event("on_click")
+        def on_settings_button_click(event):
+            from .settings import SettingsView
+
+            self.window.show_view(SettingsView(settings=settings))
+
+        @quit_button.event("on_click")
+        def on_quit_button_click(event):
+            self.window.close()

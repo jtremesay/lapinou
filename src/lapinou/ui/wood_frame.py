@@ -17,7 +17,7 @@ from enum import StrEnum
 from pathlib import Path
 
 from arcade import load_texture
-from arcade.gui import NinePatchTexture
+from arcade.gui import NinePatchTexture, UIWidget
 
 from lapinou.assets import SPROUT_UI_DIR
 
@@ -40,7 +40,8 @@ def wood_frame_image_path(color: WoodFrameColor, pattern: WoodFramePattern) -> P
 
 
 def wood_frame_texture(
-    color: WoodFrameColor, pattern: WoodFramePattern
+    color: WoodFrameColor = WoodFrameColor.LIGHT,
+    pattern: WoodFramePattern = WoodFramePattern.PLAIN,
 ) -> NinePatchTexture:
     return NinePatchTexture(
         8,
@@ -49,3 +50,14 @@ def wood_frame_texture(
         8,
         load_texture(wood_frame_image_path(color, pattern)),
     )
+
+
+def with_wood_frame_background(
+    widget: UIWidget,
+    color: WoodFrameColor = WoodFrameColor.LIGHT,
+    pattern: WoodFramePattern = WoodFramePattern.PLAIN,
+) -> UIWidget:
+    """Add a wood frame background to a widget."""
+    return widget.with_background(
+        texture=wood_frame_texture(color, pattern)
+    ).with_padding(top=20, right=20, bottom=20, left=20)
