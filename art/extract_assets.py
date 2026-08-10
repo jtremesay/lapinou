@@ -11,6 +11,7 @@ from zipfile import ZipFile
 from PIL import Image
 
 from llmrpg.assets import SPROUT_UI_DIR
+from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern
 
 logger = logging.getLogger(__name__)
 
@@ -321,9 +322,9 @@ def extract_sprout_ui(sprout_ui_zip: Path, clean: bool = False):
                 )
                 for (i_color, color), (i_style, style) in product(
                     enumerate(
-                        ["light", "medium", "dark"],
+                        WoodFrameColor,
                     ),
-                    enumerate(["plain", "nailed"]),
+                    enumerate(WoodFramePattern),
                 )
             ],
         )
