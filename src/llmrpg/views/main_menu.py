@@ -16,7 +16,7 @@
 from arcade import SpriteCircle, SpriteList
 from arcade.gui import UIBoxLayout, UIButtonRow, UILabel, UIView
 
-from llmrpg.ui.wood_frame import WoodFrameStyle
+from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern, wood_frame_texture
 
 
 class MainMenuView(UIView):
@@ -26,26 +26,14 @@ class MainMenuView(UIView):
 
         root.add(
             UILabel(
-                text="Main Menu 1",
-                font_size=24,
-                text_color=(255, 0, 0),
-            )
-        )
-        root.add(
-            UILabel(
                 text="Main Menu 2",
                 font_size=24,
                 text_color=(0, 255, 0),
             )
-            .with_background(texture=WoodFrameStyle().texture)
-            .with_padding(top=16, right=16, bottom=16, left=16),
-        )
-        root.add(
-            UILabel(
-                text="Main Menu 3",
-                font_size=24,
-                text_color=(255, 255, 0),
+            .with_background(
+                texture=wood_frame_texture(WoodFrameColor.LIGHT, WoodFramePattern.PLAIN)
             )
+            .with_padding(top=16, right=16, bottom=16, left=16),
         )
 
         row = UIButtonRow()
@@ -70,7 +58,11 @@ class MainMenuView(UIView):
                 ],
                 space_between=10,
             )
-            .with_background(texture=WoodFrameStyle().texture)
+            .with_background(
+                texture=wood_frame_texture(
+                    WoodFrameColor.MEDIUM, WoodFramePattern.NAILED
+                )
+            )
             .with_padding(top=16, right=16, bottom=16, left=16),
         )
 

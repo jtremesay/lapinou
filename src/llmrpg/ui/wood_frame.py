@@ -13,7 +13,6 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 
@@ -34,20 +33,19 @@ class WoodFramePattern(StrEnum):
     NAILED = "nailed"
 
 
-@dataclass
-class WoodFrameStyle:
-    color: WoodFrameColor = WoodFrameColor.LIGHT
-    pattern: WoodFramePattern = WoodFramePattern.PLAIN
+def wood_frame_image_path(color: WoodFrameColor, pattern: WoodFramePattern) -> Path:
+    return (
+        SPROUT_UI_DIR / "dialogs" / "wood_frame" / f"{color.value}_{pattern.value}.png"
+    )
 
-    @property
-    def image_path(self) -> Path:
-        return (
-            SPROUT_UI_DIR
-            / "dialogs"
-            / "wood_frame"
-            / f"{self.color.value}_{self.pattern.value}.png"
-        )
 
-    @property
-    def texture(self) -> NinePatchTexture:
-        return NinePatchTexture(8, 8, 8, 8, load_texture(self.image_path))
+def wood_frame_texture(
+    color: WoodFrameColor, pattern: WoodFramePattern
+) -> NinePatchTexture:
+    return NinePatchTexture(
+        8,
+        8,
+        8,
+        8,
+        load_texture(wood_frame_image_path(color, pattern)),
+    )
