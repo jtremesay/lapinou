@@ -13,8 +13,8 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-from arcade import SpriteCircle, SpriteList
-from arcade.gui import UIBoxLayout, UIButtonRow, UILabel, UIView
+# from arcade import SpriteCircle, SpriteList
+from arcade.gui import UIAnchorLayout, UIBoxLayout, UIButtonRow, UILabel, UIView
 
 from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern, wood_frame_texture
 
@@ -22,37 +22,21 @@ from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern, wood_frame_te
 class MainMenuView(UIView):
     def __init__(self) -> None:
         super().__init__()
-        root = self.ui.add(UIBoxLayout(vertical=False, space_between=10))
-
-        root.add(
-            UILabel(
-                text="Main Menu 2",
-                font_size=24,
-                text_color=(0, 255, 0),
-            )
-            .with_background(
-                texture=wood_frame_texture(WoodFrameColor.LIGHT, WoodFramePattern.PLAIN)
-            )
-            .with_padding(top=16, right=16, bottom=16, left=16),
-        )
+        root = self.ui.add(UIAnchorLayout(space_between=10))
 
         row = UIButtonRow()
         row.add_button("Start Game")
         row.add_button("Load Game")
         row.add_button("Settings")
-
         root.add(
             UIBoxLayout(
                 children=[
                     UILabel(
-                        text="Main Menu 4",
+                        text="Llmrpg\nAn agentic RPG game",
+                        multiline=True,
                         font_size=24,
                         text_color=(0, 0, 255),
-                    ),
-                    UILabel(
-                        text="Main Menu 5",
-                        font_size=24,
-                        text_color=(255, 0, 255),
+                        align="center",
                     ),
                     row,
                 ],
@@ -66,15 +50,15 @@ class MainMenuView(UIView):
             .with_padding(top=16, right=16, bottom=16, left=16),
         )
 
-        self.sprite_list = SpriteList()
-        self.sprite_list.append(
-            SpriteCircle(
-                radius=50,
-                color=(255, 0, 0, 255),
-                center_x=self.center_x,
-                center_y=self.center_y,
-            )
-        )
+        # self.sprite_list = SpriteList()
+        # self.sprite_list.append(
+        #     SpriteCircle(
+        #         radius=50,
+        #         color=(255, 0, 0, 255),
+        #         center_x=self.center_x,
+        #         center_y=self.center_y,
+        #     )
+        # )
 
-    def on_draw_before_ui(self):
-        self.sprite_list.draw()
+    # def on_draw_before_ui(self):
+    #     self.sprite_list.draw()
