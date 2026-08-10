@@ -26,6 +26,7 @@ from arcade.gui import (
     UILabel,
     UIManager,
     UIMessageBox,
+    UIOnClickEvent,
     UIView,
 )
 from arcade.gui.experimental import UIPasswordInput
@@ -35,7 +36,7 @@ from lapinou.ui.wood_frame import with_wood_frame_background
 
 
 class SettingsView(UIView):
-    def __init__(self, settings: Settings | None = None) -> None:
+    def __init__(self, settings: Settings) -> None:
         super().__init__()
         self.settings = settings
 
@@ -53,18 +54,18 @@ class SettingsView(UIView):
 
         body = root.add(with_wood_frame_background(UIBoxLayout(vertical=True)))
 
-        row1 = body.add(UIBoxLayout(vertical=False, space_between=10))
-        row1.add(
+        llm_model_row = body.add(UIBoxLayout(vertical=False, space_between=10))
+        llm_model_row.add(
             UILabel(
                 text="LLM Model", font_size=24, text_color=(0, 0, 255), align="left"
             )
         )
-        llm_model_input = row1.add(UIInputText(width=200))
+        self.llm_model_input = llm_model_row.add(UIInputText(width=200))
         if settings:
-            llm_model_input.text = settings.llm_model
+            self.llm_model_input.text = settings.llm_model
 
-        row4 = body.add(UIBoxLayout(vertical=False, space_between=10))
-        row4.add(
+        google_api_key_row = body.add(UIBoxLayout(vertical=False, space_between=10))
+        google_api_key_row.add(
             UILabel(
                 text="Google API Key",
                 font_size=24,
@@ -72,22 +73,22 @@ class SettingsView(UIView):
                 align="left",
             )
         )
-        google_api_key_input = row4.add(UIPasswordInput(width=200))
+        self.google_api_key_input = google_api_key_row.add(UIPasswordInput(width=200))
         if settings:
-            google_api_key_input.text = settings.google_api_key or ""
+            self.google_api_key_input.text = settings.google_api_key or ""
 
-        row2 = body.add(UIBoxLayout(vertical=False, space_between=10))
-        row2.add(
+        ollama_url_row = body.add(UIBoxLayout(vertical=False, space_between=10))
+        ollama_url_row.add(
             UILabel(
                 text="Ollama URL", font_size=24, text_color=(0, 0, 255), align="left"
             )
         )
-        ollama_url_input = row2.add(UIInputText(width=200))
+        self.ollama_url_input = ollama_url_row.add(UIInputText(width=200))
         if settings:
-            ollama_url_input.text = settings.ollama_url or ""
+            self.ollama_url_input.text = settings.ollama_url or ""
 
-        row3 = body.add(UIBoxLayout(vertical=False, space_between=10))
-        row3.add(
+        ollama_api_key_row = body.add(UIBoxLayout(vertical=False, space_between=10))
+        ollama_api_key_row.add(
             UILabel(
                 text="Ollama API Key",
                 font_size=24,
@@ -95,46 +96,47 @@ class SettingsView(UIView):
                 align="left",
             )
         )
-        ollama_api_key_input = row3.add(UIPasswordInput(width=200))
+        self.ollama_api_key_input = ollama_api_key_row.add(UIPasswordInput(width=200))
         if settings:
-            ollama_api_key_input.text = settings.ollama_api_key or ""
+            self.ollama_api_key_input.text = settings.ollama_api_key or ""
 
         button_row = root.add(
             UIButtonRow(spacing=10, align="center"), anchor_y="bottom", align_y=50
         )
 
-        save_button = button_row.add(
+        self.save_button = button_row.add(
             UIFlatButton(text="Save", width=100, height=40),
         )
-        main_menu_button = button_row.add(
+        self.save_button.event("on_click")(self.on_save_button_click)
+        self.main_menu_button = button_row.add(
             UIFlatButton(text="Main Menu", width=100, height=40),
         )
+        self.main_menu_button.event("on_click")(self.on_main_menu_button_click)
 
-        @save_button.event("on_click")
-        def on_save_button_click(event):
-            new_settings = Settings(
-                llm_model=llm_model_input.text,
-                google_api_key=google_api_key_input.text or None,
-                ollama_url=ollama_url_input.text or None,
-                ollama_api_key=ollama_api_key_input.text or None,
-            )
-            new_settings.save_to_file(Path("settings.json"))
-            self.settings = new_settings
-            self.ui.add(
-                UIMessageBox(
-                    width=500,
-                    height=350,
-                    title="Settings Saved",
-                    buttons=("Ok",),
-                    message_text=textwrap.dedent("""
-                    Your settings have been saved successfully.
-                    """).strip(),
-                ),
-                layer=UIManager.OVERLAY_LAYER,
-            )
+    def on_save_button_click(self, event: UIOnClickEvent) -> None:
+        # TODO: Validate inputs before saving
+        new_settings = Settings(
+            llm_model=self.llm_model_input.text,
+            google_api_key=self.google_api_key_input.text or None,
+            ollama_url=self.ollama_url_input.text or None,
+            ollama_api_key=self.ollama_api_key_input.text or None,
+        )
+        new_settings.save_to_file(Path("settings.json"))
+        self.settings = new_settings
+        self.ui.add(
+            UIMessageBox(
+                width=500,
+                height=350,
+                title="Settings Saved",
+                buttons=("Ok",),
+                message_text=textwrap.dedent("""
+                Your settings have been saved successfully.
+                """).strip(),
+            ),
+            layer=UIManager.OVERLAY_LAYER,
+        )
 
-        @main_menu_button.event("on_click")
-        def on_main_menu_button_click(event):
-            from .main_menu import MainMenuView
+    def on_main_menu_button_click(self, event: UIOnClickEvent) -> None:
+        from .main_menu import MainMenuView
 
-            self.window.show_view(MainMenuView(settings=self.settings))
+        self.window.show_view(MainMenuView(settings=self.settings))

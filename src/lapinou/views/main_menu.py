@@ -28,12 +28,11 @@ from arcade.gui import (
 from lapinou.models.settings import Settings
 from lapinou.ui.wood_frame import with_wood_frame_background
 
-# from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern, wood_frame_texture
-
 
 class MainMenuView(UIView):
-    def __init__(self, settings: Settings | None = None) -> None:
+    def __init__(self, settings: Settings) -> None:
         super().__init__()
+        self.settings = settings
         root = self.ui.add(UIAnchorLayout(space_between=10))
 
         box = root.add(
@@ -50,18 +49,18 @@ class MainMenuView(UIView):
         )
 
         button_row = box.add(UIButtonRow())
-        start_game_button = cast(UIFlatButton, button_row.add_button("Start Game"))
-        load_game_button = cast(UIFlatButton, button_row.add_button("Load Game"))
-        load_game_button.disabled = True  # TODO: Implement load game functionality
-        settings_button = cast(UIFlatButton, button_row.add_button("Settings"))
-        quit_button = cast(UIFlatButton, button_row.add_button("Quit"))
+        self.start_game_button = cast(UIFlatButton, button_row.add_button("Start Game"))
+        self.load_game_button = cast(UIFlatButton, button_row.add_button("Load Game"))
+        self.load_game_button.disabled = True  # TODO: Implement load game functionality
+        self.settings_button = cast(UIFlatButton, button_row.add_button("Settings"))
+        self.quit_button = cast(UIFlatButton, button_row.add_button("Quit"))
+        self.settings_button.event("on_click")(self.on_settings_button_click)
+        self.quit_button.event("on_click")(self.on_quit_button_click)
 
-        @settings_button.event("on_click")
-        def on_settings_button_click(event):
-            from .settings import SettingsView
+    def on_settings_button_click(self, event):
+        from .settings import SettingsView
 
-            self.window.show_view(SettingsView(settings=settings))
+        self.window.show_view(SettingsView(settings=self.settings))
 
-        @quit_button.event("on_click")
-        def on_quit_button_click(event):
-            self.window.close()
+    def on_quit_button_click(self, event):
+        self.window.close()
