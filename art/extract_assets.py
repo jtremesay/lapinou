@@ -26,8 +26,8 @@ from zipfile import ZipFile
 
 from PIL import Image
 
-from llmrpg.assets import SPROUT_UI_DIR
-from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern
+from lapinou.assets import SPROUT_UI_DIR
+from lapinou.ui.wood_frame import WoodFrameColor, WoodFramePattern
 
 logger = logging.getLogger(__name__)
 

@@ -1,4 +1,4 @@
-# llmrpg - An agentic rpg game
+# Lapinou - An agentic game engine
 # Copyright (C) 2026 Jonathan Tremesaygues
 #
 # This program is free software: you can redistribute it and/or modify

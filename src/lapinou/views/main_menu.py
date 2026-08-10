@@ -1,4 +1,4 @@
-# llmrpg - An agentic rpg game
+# Lapinou - An agentic game engine
 # Copyright (C) 2026 Jonathan Tremesaygues
 #
 # This program is free software: you can redistribute it and/or modify
@@ -13,10 +13,11 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 # from arcade import SpriteCircle, SpriteList
 from arcade.gui import UIAnchorLayout, UIBoxLayout, UIButtonRow, UILabel, UIView
 
-from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern, wood_frame_texture
+# from llmrpg.ui.wood_frame import WoodFrameColor, WoodFramePattern, wood_frame_texture
 
 
 class MainMenuView(UIView):
@@ -32,7 +33,7 @@ class MainMenuView(UIView):
             UIBoxLayout(
                 children=[
                     UILabel(
-                        text="Llmrpg\nAn agentic RPG game",
+                        text="Lapinou\nAn agentic game engine",
                         multiline=True,
                         font_size=24,
                         text_color=(0, 0, 255),
@@ -42,12 +43,12 @@ class MainMenuView(UIView):
                 ],
                 space_between=10,
             )
-            .with_background(
-                texture=wood_frame_texture(
-                    WoodFrameColor.MEDIUM, WoodFramePattern.NAILED
-                )
-            )
-            .with_padding(top=16, right=16, bottom=16, left=16),
+            # .with_background(
+            #     texture=wood_frame_texture(
+            #         WoodFrameColor.MEDIUM, WoodFramePattern.NAILED
+            #     )
+            # )
+            # .with_padding(top=16, right=16, bottom=16, left=16),
         )
 
         # self.sprite_list = SpriteList()

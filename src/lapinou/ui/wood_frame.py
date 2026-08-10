@@ -1,4 +1,4 @@
-# llmrpg - An agentic rpg game
+# Lapinou - An agentic game engine
 # Copyright (C) 2026 Jonathan Tremesaygues
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@ from pathlib import Path
 from arcade import load_texture
 from arcade.gui import NinePatchTexture
 
-from llmrpg.assets import SPROUT_UI_DIR
+from lapinou.assets import SPROUT_UI_DIR
 
 
 class WoodFrameColor(StrEnum):
