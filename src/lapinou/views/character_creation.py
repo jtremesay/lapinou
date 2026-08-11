@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from concurrent.futures import Future, ThreadPoolExecutor
 
 from arcade.gui import (
     UIAnchorLayout,
@@ -26,6 +27,7 @@ from arcade.gui import (
     UIView,
 )
 
+from lapinou.agents import create_character
 from lapinou.models.character import Character, Gender
 from lapinou.models.settings import Settings
 from lapinou.ui.wood_frame import with_wood_frame_background
@@ -35,6 +37,8 @@ class CharacterCreationView(UIView):
     def __init__(self, settings: Settings | None = None) -> None:
         super().__init__()
         self.settings = settings
+        self._executor = ThreadPoolExecutor(max_workers=1)
+        self._pending_character: Future[Character] | None = None
 
         root = self.ui.add(UIAnchorLayout())
         root.add(
@@ -122,9 +126,14 @@ class CharacterCreationView(UIView):
             UIButtonRow(spacing=10, align="center"), anchor_y="bottom", align_y=50
         )
 
-        create_button = button_row.add_button("Random")
-        create_button = button_row.add_button(label="Create")
-        create_button.event("on_click")(self.on_create_button_click)
+        self.random_button = button_row.add_button("Random")
+        self.random_button.event("on_click")(self.on_random_button_click)
+        self.create_button = button_row.add_button(label="Create")
+        self.create_button.event("on_click")(self.on_create_button_click)
+
+    def on_random_button_click(self, event: UIOnClickEvent) -> None:
+        self.random_button.disabled = True
+        self._pending_character = self._executor.submit(create_character)
 
     def on_create_button_click(self, event: UIOnClickEvent) -> None:
         # TODO: Validate inputs and handle errors
@@ -138,3 +147,15 @@ class CharacterCreationView(UIView):
             description=self.description_input.text,
         )
         print(character.model_dump())
+
+    def on_update(self, delta_time: float) -> None:
+        if self._pending_character and self._pending_character.done():
+            character = self._pending_character.result()
+            self.character_name_input.text = character.name
+            self.character_age_input.text = str(character.age)
+            self.gender_dropdown.value = character.gender.value
+            self.occupation_input.text = character.occupation
+            self.biography_input.text = character.biography
+            self.description_input.text = character.description
+            self._pending_character = None
+            self.random_button.disabled = False

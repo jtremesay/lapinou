@@ -18,6 +18,7 @@ import pkgutil
 from argparse import ArgumentParser
 from collections.abc import Iterable
 
+import logfire
 from dotenv import load_dotenv
 
 from lapinou import commands as commands_module
@@ -27,6 +28,8 @@ from .command import BaseCommand
 
 def main(args: Iterable[str] | None = None) -> None:
     load_dotenv()  # Load environment variables from .env file
+    logfire.configure(send_to_logfire="if-token-present")
+    logfire.instrument_pydantic_ai()
 
     parser = ArgumentParser(description="Lapinou CLI")
     subparsers = parser.add_subparsers(dest="command", required=True)

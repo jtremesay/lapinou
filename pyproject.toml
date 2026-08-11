@@ -12,7 +12,7 @@ dependencies = [
     "arcade>=2.4.3",
     "pillow>=12.3.0",
     "pydantic>=2.13.4",
-    "pydantic-ai-slim[google,openai]>=2.25.0",
+    "pydantic-ai-slim[google,logfire,openai]>=2.25.0",
     "python-dotenv>=1.2.2",
     "pymunk~=7.2.0",
 ]
