@@ -12,6 +12,9 @@ wheels/
 # Environment variables
 .env
 
+# Data directory
+/data/
+
 # Arts
 /thirds/itchio/mnt/
 
