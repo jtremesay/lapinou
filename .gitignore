@@ -13,7 +13,7 @@ wheels/
 .env
 
 # Arts
-/art/mnt/
+/thirds/itchio/mnt/
 
 # Settings file
 /settings.json

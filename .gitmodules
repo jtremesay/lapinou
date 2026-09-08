@@ -1,0 +1,3 @@
+[submodule "thirds/pokered"]
+	path = thirds/pokered
+	url = https://github.com/pret/pokered.git
