@@ -2,7 +2,7 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from lapinou.models import Tileset
+from lapinou.models import TileSet
 from pokered.asm import parse_asm_call_file
 
 
@@ -32,14 +32,14 @@ def parse_tileset_headers(path: Path) -> list[TileSetHeader]:
     return headers
 
 
-def parse_tilesets(path: Path) -> list[Tileset]:
+def parse_tilesets(path: Path) -> list[TileSet]:
     constants = parse_tileset_constants(path / "constants/tileset_constants.asm")
     headers = parse_tileset_headers(path / "data/tilesets/tileset_headers.asm")
 
     tilesets = []
     for constant, header in zip(constants, headers):
         tilesets.append(
-            Tileset(
+            TileSet(
                 id=constant,
                 name=header.name,
                 grass_tile=header.grass_tile,

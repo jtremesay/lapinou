@@ -3,14 +3,14 @@ from enum import StrEnum
 from pydantic import BaseModel, Field, TypeAdapter
 
 
-class Tileset(BaseModel):
+class TileSet(BaseModel):
     id: str
     name: str
     grass_tile: int = -1
     animation: str = "TILEANIM_NONE"
 
 
-TilesetsListTypeAdapter = TypeAdapter(list[Tileset])
+TileSetsListTypeAdapter = TypeAdapter(list[TileSet])
 
 
 class Direction(StrEnum):

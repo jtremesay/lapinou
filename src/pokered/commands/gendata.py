@@ -5,7 +5,7 @@ from shutil import copy, rmtree
 
 from lapinou.models import (
     MapsListAdapter,
-    TilesetsListTypeAdapter,
+    TileSetsListTypeAdapter,
 )
 from pokered.map import parse_maps
 from pokered.tileset import parse_tilesets
@@ -43,7 +43,7 @@ def main(args: Iterable[str] | None = None):
     tilesets = parse_tilesets(input_data_path)
 
     with (output_data_path / "tilesets.json").open("wb") as f:
-        f.write(TilesetsListTypeAdapter.dump_json(tilesets, indent=4))
+        f.write(TileSetsListTypeAdapter.dump_json(tilesets, indent=4))
 
     output_tilesets_path = output_data_path / "tilesets"
     output_tilesets_path.mkdir(parents=True, exist_ok=True)

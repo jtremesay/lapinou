@@ -19,6 +19,7 @@ dependencies = [
 
 [project.scripts]
 lapinou = "lapinou.commands.main:main"
+lapinou-viewmap = "lapinou.commands.viewmap:main"
 pokered-gendata = "pokered.commands.gendata:main"
 pokered-sandbox = "pokered.commands.sandbox:main"
 
