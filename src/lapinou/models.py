@@ -3,10 +3,14 @@ from enum import StrEnum
 from pydantic import BaseModel, Field, TypeAdapter
 
 
-class MapKind(StrEnum):
-    CITY = "CITY"
-    ROAD = "ROAD"
-    INDOOR = "INDOOR"
+class Tileset(BaseModel):
+    id: str
+    name: str
+    grass_tile: int = -1
+    animation: str = "TILEANIM_NONE"
+
+
+TilesetsListTypeAdapter = TypeAdapter(list[Tileset])
 
 
 class Direction(StrEnum):
@@ -25,11 +29,10 @@ class Connection(BaseModel):
 class Map(BaseModel):
     id: str
     name: str
-    kind: MapKind
     width: int
     height: int
     tileset: str
     connections: list[Connection] = Field(default_factory=list)
 
 
-MapTypeAdapter = TypeAdapter(list[Map])
+MapsListAdapter = TypeAdapter(list[Map])
